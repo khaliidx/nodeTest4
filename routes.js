@@ -5,7 +5,7 @@ var passport = require("passport");
 var router = express.Router();
 
 
-//?????????????????????
+//init user model and flash
 router.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
 	res.locals.errors = req.flash("error");
@@ -17,13 +17,20 @@ router.use(function(req, res, next) {
 
 //route for main page 
 router.get("/", function(req, res, next) {
+		res.render("index");
+});
+
+
+//route for users page
+router.get("/users", function(req, res, next) {
 	User.find()
 	.sort({ createdAt: "descending" })
 	.exec(function(err, users) {
 		if (err) { return next(err); }
-		res.render("index", { users: users });
+		res.render("users", { users: users });
 	});
 });
+
 
 
 //route for GET signup 

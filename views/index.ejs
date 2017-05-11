@@ -2,22 +2,17 @@
 
 
 <h1>Welcome to Learn About Me!</h1>
+<br><br>
 
-<% users.forEach(function(user) { %>
-	<div class="panel panel-default">
+<h2>Dashboard</h2>
+  <a class="btn btn-primary" href="/users">Users list</a>
+  <a class="btn btn-primary" href="/movies/list">List of Movies</a>
+  <a class="btn btn-primary" href="/movies/add">Add a Movie</a>
 
-	<div class="panel-heading">
-		<a href="/users/<%= user.username %>">
-		<%= user.name() %>
-		</a>
-	</div>
 
-	<% if (user.bio) { %>
-		<div class="panel-body"><%= user.bio %></div>
-	<% } %>
-	</div>
-	
-<% }) %>
+<br><br>
+<p>Need to add access to admin and user accounts</p>
+<p>check the POST routes</p>
 
 
 
