@@ -9,7 +9,8 @@ var userSchema = mongoose.Schema({
 	password: { type: String, required: true },
 	createdAt: { type: Date, default: Date.now },
 	displayName: String,
-	bio: String
+	bio: String,
+	isAdmin: { type: Boolean, default: false }
 });
 
 userSchema.methods.name = function() {

@@ -1,8 +1,16 @@
 <% include _header %>
 
 
-<% if ((currentUser) && (currentUser.id === user.id)) { %>
-<a href="/edit" class="pull-right">Edit your profile</a>
+<% if (currentUser) { %>
+
+	<% if ((currentUser.id === user.id)) { %>
+		<a href="/edit" class="btn pull-right">Edit your profile</a>
+	<% } %>
+
+	<% if (currentUser.isAdmin) { %>
+		<a href="/delete/<%= user.username %>" class="btn">Delete Account</a>
+	<% } %>
+
 <% } %>
 
 

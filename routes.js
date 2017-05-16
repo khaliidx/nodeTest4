@@ -22,13 +22,18 @@ router.get("/", function(req, res, next) {
 
 
 //route for users page
-router.get("/users", function(req, res, next) {
-	User.find()
-	.sort({ createdAt: "descending" })
-	.exec(function(err, users) {
-		if (err) { return next(err); }
-		res.render("users", { users: users });
-	});
+router.get("/users", /*middleware to check if user is admin  ,*/function(req, res, next) {
+	if(req.user && req.user.isAdmin){
+		User.find()
+		.sort({ createdAt: "descending" })
+		.exec(function(err, users) {
+			if (err) { return next(err); }
+			res.render("users", { users: users });
+		});
+	}else{
+		req.flash("error", "Restricted Area to Admins Only!");
+		res.redirect("/");
+	}
 });
 
 
@@ -112,12 +117,37 @@ router.post("/edit", ensureAuthenticated, function(req, res, next) {
 
 // GET users
 router.get("/users/:username", function(req, res, next) {
-	User.findOne({ username: req.params.username }, function(err, user) {
-		if (err) { return next(err); }
-		if (!user) { return next(404); }
-		res.render("profile", { user: user });
-	});
+	if(req.user && req.user.isAdmin){
+		User.findOne({ username: req.params.username }, function(err, user) {
+			if (err) { return next(err); }
+			if (!user) { return next(404); }
+			res.render("profile", { user: user });
+		});
+	}else{
+		req.flash("error", "Restricted Area to Admins Only!");
+		res.redirect("/");
+	}
 });
+
+
+//DELETE user
+router.get("/delete/:username", function(req, res, next) {
+	if(req.user && req.user.isAdmin){
+		User.findOne( { username: req.params.username }, function(err, user) {
+			if (err) { return next(err); }
+			if (!user) { return next(404); }
+			user.remove( function ( err, movie ){
+                res.redirect( '/users' );
+            });
+		});
+	}else{
+		req.flash("error", "Restricted Area to Admins Only!");
+		res.redirect("/");
+	}
+});
+
+
+
 
 
 

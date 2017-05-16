@@ -5,7 +5,13 @@
 <br><br>
 
 <h2>Dashboard</h2>
-  <a class="btn btn-primary" href="/users">Users list</a>
+
+	<% if (currentUser && currentUser.isAdmin ) { %>
+		 <a class="btn btn-primary" href="/users">Users list</a>
+	<% } %>
+
+
+ 
   <a class="btn btn-primary" href="/movies/list">List of Movies</a>
   <a class="btn btn-primary" href="/movies/add">Add a Movie</a>
 

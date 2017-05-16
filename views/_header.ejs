@@ -23,7 +23,7 @@
 				<% if (currentUser) { %>
 				<li>
 				<a href="/edit">
-				Hello, <%= currentUser.name() %>
+				Hello,<% if (currentUser.isAdmin ) { %> Admin <% } %><%= currentUser.name() %>
 				</a>
 				</li>
 				<li><a href="/logout">Log out</a></li>
