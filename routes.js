@@ -22,7 +22,7 @@ router.get("/", function(req, res, next) {
 
 
 //route for users page
-router.get("/users", /*middleware to check if user is admin  ,*/function(req, res, next) {
+router.get("/users", function(req, res, next) {
 	if(req.user && req.user.isAdmin){
 		User.find()
 		.sort({ createdAt: "descending" })
@@ -115,7 +115,7 @@ router.post("/edit", ensureAuthenticated, function(req, res, next) {
 
 
 
-// GET users
+// GET user
 router.get("/users/:username", function(req, res, next) {
 	if(req.user && req.user.isAdmin){
 		User.findOne({ username: req.params.username }, function(err, user) {
@@ -131,7 +131,7 @@ router.get("/users/:username", function(req, res, next) {
 
 
 //DELETE user
-router.get("/delete/:username", function(req, res, next) {
+router.get("/users/delete/:username", function(req, res, next) {
 	if(req.user && req.user.isAdmin){
 		User.findOne( { username: req.params.username }, function(err, user) {
 			if (err) { return next(err); }

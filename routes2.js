@@ -1,58 +1,11 @@
-var Movie = require('./models/movie');
 var express    = require('express');        // call express
-var app        = express();                 // define our app using express
-var bodyParser = require('body-parser');
-
-
-
-
-app.set('view engine', 'ejs');
-
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
-
-
-
-
-
-
-
-
-
-
-
-
+var Movie = require('./models/movie');
 
 var router = express.Router();              // get an instance of the express Router
 
 
 
-
-
-
-
-
-
-//GET AND POST
-router.route('/')
-
-    .get(function(req, res) {
-            res.render('index.ejs')
-        })
-    .post(function(req, res) {        
-        var movie = new Movie(req.body);
-        // save the movie and check for errors
-        movie.save(function(err) {
-            if (err)
-                res.send(err);
-
-            console.log('Movie created!');
-            res.redirect('/');
-        });
-        
-    });
+    
     
 
 router.route('/movies/list')
@@ -71,11 +24,23 @@ router.route('/movies/add')
     .get(function(req, res) {        
             console.log('redirected to editing page!');
             res.render('add.ejs');
+        })
+    .post(function(req, res) {        
+        var movie = new Movie(req.body);
+        // save the movie and check for errors
+        movie.save(function(err) {
+            if (err)
+                res.send(err);
+
+            console.log('Movie created!');
+            res.redirect('/');
         });
+        
+    });
         
    
 //delete
-router.route('/delete/:id')
+router.route('/movies/delete/:id')
     .get(function(req, res) {
         Movie.findById( req.params.id, function ( err, movie ){
             movie.remove( function ( err, movie ){
@@ -83,6 +48,7 @@ router.route('/delete/:id')
             });
         });
     });
+    
 
 
 
@@ -98,7 +64,7 @@ router.route('/movies/edit/:id')
         });
     });
 
-router.route('/edit/:id')   
+router.route('/movies/edit/:id')   
     .post(function(req, res) {
         Movie.findById(req.params.id, function(err, movie) {
             if (err)

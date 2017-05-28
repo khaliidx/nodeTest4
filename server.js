@@ -8,16 +8,14 @@ var flash = require("connect-flash");
 var routes = require("./routes");
 var routes2 = require("./routes2");
 
-
-
 var passport = require("passport");
 var setUpPassport = require("./setuppassport");
 
 
 var app = express();
 
-mongoose.connect("mongodb://localhost:27017/test");
-app.set("port", process.env.PORT || 3000);
+
+
 
 setUpPassport();
 
@@ -28,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());// handling cookies
 
 
+// express-session
 app.use(session({
 	secret: "TKRv0IJs=HYqrvagQ#&!F!%V]Ww/4KiVs$s,<<MX",
 	resave: true,
@@ -35,15 +34,43 @@ app.use(session({
 }));
 
 
-app.use(flash());// for showing errors
+// for showing errors
+app.use(flash());
 
-app.use(passport.initialize());//handling sessions and stuff
+//handling sessions and stuff
+app.use(passport.initialize());
 app.use(passport.session());
+
+
+
+
 
 
 app.use(routes);
 app.use(routes2);
 
-app.listen(app.get("port"), function() {
-	console.log("Magic happening on port " + app.get("port"));
+
+var port = process.env.PORT || 8080;        // set our port
+
+/*
+mongoose.connect("mongodb://localhost:27017/test");
+
+
+app.listen(port, function() {
+	console.log("Magic happening on port " + port+"...");
 });
+*/
+
+// mlab user: lolimtesting
+
+var connectionString = 'mongodb://user1:pass@ds163020.mlab.com:63020/moviesdb';
+
+mongoose.connect(connectionString, (err, database) => {
+  
+	if (err) return console.log(err)
+	db = database
+	app.listen(port, () => {
+		console.log('Magic happening on port '+port+'...');
+	})
+});
+

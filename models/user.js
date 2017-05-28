@@ -4,6 +4,7 @@ var SALT_FACTOR = 10;
 
 //user model
 var mongoose = require("mongoose");
+
 var userSchema = mongoose.Schema({
 	username: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
@@ -12,6 +13,19 @@ var userSchema = mongoose.Schema({
 	bio: String,
 	isAdmin: { type: Boolean, default: false }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 userSchema.methods.name = function() {
 	return this.displayName || this.username;
@@ -50,7 +64,5 @@ userSchema.methods.checkPassword = function(guess, done) {
 };
 
 
-
 //exporting model
-var User = mongoose.model("User", userSchema);
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);
